@@ -61,7 +61,7 @@ if [[ "${CREATE_BACKUP_HOURS}" -gt 0 ]]; then
 			mkdir -p "/config/minecraft/backups/${datetime}"
 
 			echo "[info] Minecraft worlds are now ready for backup, backing up to '/config/minecraft/backups/${datetime}/'..."
-			cp -R "/config/minecraft/world" "/config/minecraft/backups/${datetime}"
+			cp -R "config/minecraft/world/ config/minecraft/world_nether/ config/minecraft/world_the_end/" "/config/minecraft/backups/${datetime}"
 
 		fi
 
