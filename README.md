@@ -1,14 +1,18 @@
 **Application**
 
-[Minecraft Server](https://www.minecraft.net/en-us/download/server/)
+[Folia Minecraft Server](https://papermc.io/software/folia)
 
 **Description**
 
-Minecraft is a sandbox video game created by Swedish game developer Markus Persson and released by Mojang in 2011. The game allows players to build with a variety of different blocks in a 3D procedurally generated world, requiring creativity from players. Other activities in the game include exploration, resource gathering, crafting, and combat. Multiple game modes that change gameplay are available, including—but not limited to—a survival mode, in which players must acquire resources to build the world and maintain health, and a creative mode, where players have unlimited resources to build with.
+Folia is a new fork of Paper that adds regionized multithreading to the server. Access to Folia builds isn't currently available. To build Folia, you need to compile from source following Paper's standard compilation guide.
+
+Folia is designed to address the constant bottleneck of the Minecraft server running on a single thread causing performance issues. It is by no means a drop-in replacement for Paper.
+
+Folia won't be useful for the majority of servers out there and will break most public plugins. It's ideal for servers with very high players counts, that offer gamemodes that naturally spread players out, such as SkyBlock or SMP.
 
 **Build notes**
 
-Latest stable Minecraft Java release from Mojang.
+Latest stable release from papermc.io.
 
 **Usage**
 ```
@@ -86,7 +90,8 @@ User ID (PUID) and Group ID (PGID) can be found by issuing the following command
 id <username>
 ```
 ___
-If you appreciate my work, then please consider buying me a beer  :D
+If you appreciate binhex's work, then please consider buying him a beer  :D
+I have only taken this code an modified it to run folia, he is the real mastermind behind the foundational code. 
 
 [![PayPal donation](https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MM5E27UX6AUU4)
 
