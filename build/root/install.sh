@@ -35,7 +35,7 @@ mv /tmp/scripts-master/shell/arch/docker/*.sh /usr/local/bin/
 ####
 
 # define pacman packages
-pacman_packages="jre8-openjdk-headless jre11-openjdk-headless jre17-openjdk-headless jre-openjdk-headless screen rsync"
+pacman_packages="default-jre default-jre-headless jre8-openjdk-headless jre11-openjdk-headless jre17-openjdk-headless jre-openjdk-headless screen rsync"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -123,11 +123,12 @@ mkdir -p "/srv/minecraft" && mv "/tmp/minecraft_server.jar" "/srv/minecraft/"
 
 cat <<'EOF' >/tmp/envvars_heredoc
 
-export EXTRA_PARAMS=$(echo "${EXTRA_PARAMS}")
+export EXTRA_PARAMS=$(echo "${EXTRA_PARAMS}") | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
 if [[ ! -z "${EXTRA_PARAMS}" ]]; then
-	echo "[info] EXTRA_PARAMS defined as '${EXTRA_PARAMS}'"
+	echo "[info] EXTRA_PARAMS defined as '${EXTRA_PARAMS}'" | ts '%Y-%m-%d %H:%M:%.S'
 else
-    echo "[info] No extra parameters were defines. Skipping!"
+    echo "[info] No extra parameters were defines. Skipping!" | ts '%Y-%m-%d %H:%M:%.S'
+	export EXTRA_PARAMS=""
 fi
 
 export CREATE_BACKUP_HOURS=$(echo "${CREATE_BACKUP_HOURS}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
@@ -257,9 +258,19 @@ fi
 export JAVA_MAX_THREADS=$(echo "${JAVA_MAX_THREADS}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
 if [[ ! -z "${JAVA_MAX_THREADS}" ]]; then
 	echo "[info] JAVA_MAX_THREADS defined as '${JAVA_MAX_THREADS}'" | ts '%Y-%m-%d %H:%M:%.S'
+	echo "[info] -XX:ParallelGCThreads: Sets the number of threads used during parallel phases of the garbage collectors. The default value varies with the platform on which the JVM is running."
 else
 	echo "[info] JAVA_MAX_THREADS not defined,(via -e JAVA_MAX_THREADS), defaulting to '1'" | ts '%Y-%m-%d %H:%M:%.S'
 	export JAVA_MAX_THREADS="1"
+fi
+
+export CONC_GC_THREADS=$(echo "${CONC_GC_THREADS}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
+if [[ ! -z "${CONC_GC_THREADS}" ]]; then
+	echo "[info] CONC_GC_THREADS defined as '${CONC_GC_THREADS}'" | ts '%Y-%m-%d %H:%M:%.S'
+	echo "[info] -XX:ConcGCThreads: Number of threads concurrent garbage collectors will use. The default value varies with the platform on which the JVM is running."
+else
+	echo "[info] CONC_GC_THREADS not defined,(via -e CONC_GC_THREADS), defaulting to '1'" | ts '%Y-%m-%d %H:%M:%.S'
+	export CONC_GC_THREADS="1"
 fi
 
 export STARTUP_CMD=$(echo "${STARTUP_CMD}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
