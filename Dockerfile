@@ -1,4 +1,4 @@
-FROM mddewittjr/MultiJavaMCServer:latest
+FROM mddewittjr/multijavamcserver:latest
 LABEL org.opencontainers.image.authors = "mddewittjr"
 LABEL org.opencontainers.image.source = "https://github.com/mddewittjr/MultiJavaMCServer"
 
