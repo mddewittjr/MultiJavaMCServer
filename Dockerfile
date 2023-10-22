@@ -1,5 +1,5 @@
-FROM mddewittjr/multijavamcserver:latest
-LABEL org.opencontainers.image.authors = "mddewittjr"
+FROM binhex/arch-base:latest
+LABEL org.opencontainers.image.authors = "x09c"
 LABEL org.opencontainers.image.source = "https://github.com/mddewittjr/MultiJavaMCServer"
 
 # release tag name from buildx arg
