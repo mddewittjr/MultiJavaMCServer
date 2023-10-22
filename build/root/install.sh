@@ -23,7 +23,7 @@ fi
 ####
 
 # download build scripts from github
-curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/scripts-master.zip -L https://github.com/binhex/scripts/archive/master.zip
+curl --connect-timeout 5 --max-time 600 --retry 5 --retry-delay 0 --retry-max-time 60 -o /tmp/scripts-master.zip -L https://github.com/mddewittjr/scripts/archive/master.zip
 
 # unzip build scripts
 unzip /tmp/scripts-master.zip -d /tmp
@@ -113,18 +113,21 @@ sed -i '/# PERMISSIONS_PLACEHOLDER/{
 }' /usr/local/bin/init.sh
 rm /tmp/permissions_heredoc
 
+# download compiled minecraft java server
+rcurl.sh -o "/tmp/minecraft_server.jar" "https://github.com/mddewittjr/Folia-versions/blob/main/folia-bundler-1.20.1.jar"
+
+# move minecraft java server
+mkdir -p "/srv/minecraft" && mv "/tmp/minecraft_server.jar" "/srv/minecraft/"
 # env vars
 ####
 
 cat <<'EOF' >/tmp/envvars_heredoc
 
-export MINECRAFT_JAR=$(echo "${MINECRAFT_JAR}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
-if [${MINECRAFT_JAR} -eq ""]; then
-    echo "[info] No minecraft server url entered.  Exiting!
-	set -e
+export EXTRA_PARAMS=$(echo "${EXTRA_PARAMS}")
+if [[ ! -z "${EXTRA_PARAMS}" ]]; then
+	echo "[info] EXTRA_PARAMS defined as '${EXTRA_PARAMS}'"
 else
-echo "Minecraft url '${MINECRAFT_JAR}' selected!"
-export MINECRAFT_JAR="${MINECRAFT_JAR}"
+    echo "[info] No extra parameters were defines. Skipping!"
 fi
 
 export CREATE_BACKUP_HOURS=$(echo "${CREATE_BACKUP_HOURS}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
@@ -268,11 +271,7 @@ fi
 
 EOF
 
-# download compiled minecraft java server
-rcurl.sh -o "/tmp/minecraft_server.jar" "${MINECRAFT_JAR}"
 
-# move minecraft java server
-mkdir -p "/srv/minecraft" && mv "/tmp/minecraft_server.jar" "/srv/minecraft/"
 
 # replace env vars placeholder string with contents of file (here doc)
 sed -i '/# ENVVARS_PLACEHOLDER/{
