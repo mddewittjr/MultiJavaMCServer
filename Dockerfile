@@ -1,6 +1,6 @@
-FROM binhex/arch-base:latest
-LABEL org.opencontainers.image.authors = "binhex"
-LABEL org.opencontainers.image.source = "https://github.com/binhex/arch-minecraftserver"
+FROM mddewittjr/MultiJavaMCServer:latest
+LABEL org.opencontainers.image.authors = "mddewittjr"
+LABEL org.opencontainers.image.source = "https://github.com/mddewittjr/MultiJavaMCServer"
 
 # release tag name from buildx arg
 ARG RELEASETAG
